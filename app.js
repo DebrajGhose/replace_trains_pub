@@ -75,9 +75,10 @@ function renderGraph(rawNodes, rawLinks) {
   svg.attr("viewBox", [0, 0, width, height]);
 
   const levelColor = {
-    yes:    "#a6e3a1",
-    caveat: "#f9e2af",
-    no:     "#f38ba8"
+    yes:     "#a6e3a1",
+    caveat:  "#f9e2af",
+    no:      "#f38ba8",
+    unknown: "#9399b2"
   };
 
   const NODE_RADIUS = 30;

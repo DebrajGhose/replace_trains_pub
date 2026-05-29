@@ -6,7 +6,7 @@ window.CITIES.sanfrancisco = {
   name: "San Francisco",
   fullTitle: "SF Bay Area Train Compatibility",
   asOf: "May 2026",
-  description: "Each dot is a rail service in the Bay Area. The story here is fragmentation: BART runs on a unique broad gauge, Caltrain is heavy commuter rail, Muni Metro is light rail, cable cars are cable-hauled, so almost nothing can run on anything else. An arrow from A to B means A's train could physically run on B's tracks; its color is the verdict. Hover an arrow for the details, and drag any dot to rearrange the graph.",
+  description: "Each dot is a Bay Area rail service. BART uses a 5'6\" broad gauge, Caltrain is heavy commuter rail, Muni Metro is light rail, the F Line is a historic streetcar, and cable cars are cable-hauled on narrow gauge, so almost none can run on another's tracks. An arrow from A to B means A's train could physically run on B's tracks; its color is the verdict. Hover an arrow for details; drag any dot to rearrange the graph.",
 
   nodes: [
     { id: "bart",     name: "BART",                color: "#0099CC", type: "Heavy rail · 1000 V DC third rail · BROAD 5'6\" gauge" },
@@ -71,9 +71,162 @@ window.CITIES.sanfrancisco = {
       ]
     },
 
-    /* Cable cars are mechanically unique. Narrow gauge, no electrical
-       traction (cable-hauled). They cannot ride on anything else and
-       nothing can ride on them. No edges. */
+    /* BART: 5'6" broad gauge, 1000 V DC third rail. No other Bay Area vehicle
+       fits its rails and its cars fit nothing else. All pairings "no", dashed. */
+    {
+      source: "bart", target: "muni", level: "no", dashed: true,
+      summary: "BART trains cannot run on Muni Metro tracks.",
+      points: [
+        "BART rides a 5'6\" broad gauge; Muni is standard gauge, so BART's wheels would not even sit on Muni's rails.",
+        "Power is incompatible too: BART uses 1000 V DC third rail, Muni uses 600 V DC overhead.",
+        "BART cars are large heavy-rail vehicles, far too big for Muni's light-rail envelope and platforms.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "muni", target: "bart", level: "no", dashed: true,
+      summary: "Muni Metro trains cannot run on BART tracks.",
+      points: [
+        "Muni is standard gauge; BART is 5'6\" broad gauge, so a Muni LRV's wheels would not fit BART's rails.",
+        "Muni draws 600 V DC from overhead; BART has 1000 V DC third rail and no catenary, so a Muni car would have no power.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "bart", target: "caltrain", level: "no", dashed: true,
+      summary: "BART trains cannot run on Caltrain tracks.",
+      points: [
+        "BART's 5'6\" broad gauge does not fit Caltrain's standard-gauge rails.",
+        "Power is incompatible: BART uses 1000 V DC third rail, Caltrain uses 25 kV AC overhead.",
+        "No track connection exists between the systems."
+      ]
+    },
+    {
+      source: "caltrain", target: "bart", level: "no", dashed: true,
+      summary: "Caltrain trains cannot run on BART tracks.",
+      points: [
+        "Caltrain is standard gauge; BART is 5'6\" broad gauge, so the wheels would not fit.",
+        "Caltrain uses 25 kV AC overhead; BART has 1000 V DC third rail and no catenary.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "bart", target: "fline", level: "no", dashed: true,
+      summary: "BART trains cannot run on F Line tracks.",
+      points: [
+        "BART's 5'6\" broad gauge does not fit the F Line's standard-gauge street track.",
+        "BART uses 1000 V DC third rail; the F Line uses 600 V DC overhead.",
+        "BART runs large heavy-rail cars; the F Line runs single streetcars.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "fline", target: "bart", level: "no", dashed: true,
+      summary: "F Line streetcars cannot run on BART tracks.",
+      points: [
+        "The F Line is standard gauge; BART is 5'6\" broad gauge, so the wheels would not fit.",
+        "F Line PCCs draw 600 V DC from overhead; BART has 1000 V DC third rail and no catenary.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "bart", target: "cable", level: "no", dashed: true,
+      summary: "BART trains cannot run on cable car tracks.",
+      points: [
+        "BART's 5'6\" broad gauge does not fit the cable cars' 3'6\" narrow gauge.",
+        "Cable cars are cable-hauled with no electrical traction; BART is a self-powered electric heavy-rail train.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "cable", target: "bart", level: "no", dashed: true,
+      summary: "Cable cars cannot run on BART tracks.",
+      points: [
+        "Cable cars use 3'6\" narrow gauge; BART is 5'6\" broad gauge, so the wheels would not fit.",
+        "Cable cars have no traction motors at all (they grip a moving cable), so they cannot move under their own power on BART track.",
+        "No track connection exists."
+      ]
+    },
+
+    /* Cable cars: 3'6" narrow gauge, cable-hauled, no traction motors. Nothing
+       fits their track and they fit nothing else. All pairings "no", dashed. */
+    {
+      source: "muni", target: "cable", level: "no", dashed: true,
+      summary: "Muni Metro trains cannot run on cable car tracks.",
+      points: [
+        "Muni is standard gauge; cable cars are 3'6\" narrow gauge, so the wheels would not fit.",
+        "Cable car tracks have a center slot for the cable, not electrical power for a Muni LRV.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "cable", target: "muni", level: "no", dashed: true,
+      summary: "Cable cars cannot run on Muni Metro tracks.",
+      points: [
+        "Cable cars are 3'6\" narrow gauge; Muni is standard gauge, so the wheels would not fit.",
+        "Cable cars have no traction motors; with no street cable to grip, a cable car cannot move on Muni track.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "caltrain", target: "cable", level: "no", dashed: true,
+      summary: "Caltrain trains cannot run on cable car tracks.",
+      points: [
+        "Caltrain is standard gauge; cable cars are 3'6\" narrow gauge, so the wheels would not fit.",
+        "Cable car track carries a hauling cable, not 25 kV power, and could never bear Caltrain's weight.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "cable", target: "caltrain", level: "no", dashed: true,
+      summary: "Cable cars cannot run on Caltrain tracks.",
+      points: [
+        "Cable cars are 3'6\" narrow gauge; Caltrain is standard gauge, so the wheels would not fit.",
+        "Cable cars have no traction motors and no way to draw Caltrain's 25 kV AC power.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "fline", target: "cable", level: "no", dashed: true,
+      summary: "F Line streetcars cannot run on cable car tracks.",
+      points: [
+        "The F Line is standard gauge; cable cars are 3'6\" narrow gauge, so the wheels would not fit.",
+        "Cable car track has a cable slot, not the 600 V DC overhead an F Line PCC needs.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "cable", target: "fline", level: "no", dashed: true,
+      summary: "Cable cars cannot run on F Line tracks.",
+      points: [
+        "Cable cars are 3'6\" narrow gauge; the F Line is standard gauge, so the wheels would not fit.",
+        "Cable cars have no traction motors and cannot draw power from the F Line's overhead.",
+        "No track connection exists."
+      ]
+    },
+
+    /* Caltrain <-> F Line: both standard gauge, so the wheels fit, but power,
+       weight, and size still rule it out. */
+    {
+      source: "caltrain", target: "fline", level: "no", dashed: true,
+      summary: "Caltrain trains cannot run on F Line tracks.",
+      points: [
+        "Same standard gauge, so the wheels would actually fit.",
+        "Power is incompatible: Caltrain uses 25 kV AC overhead, the F Line uses 600 V DC overhead.",
+        "Caltrain consists are heavy commuter-rail trains far too large and heavy for the F Line's light street track and stops.",
+        "No track connection exists."
+      ]
+    },
+    {
+      source: "fline", target: "caltrain", level: "no", dashed: true,
+      summary: "F Line streetcars cannot run on Caltrain tracks.",
+      points: [
+        "Same standard gauge, so the wheels would fit.",
+        "Power is incompatible: the F Line's PCCs use 600 V DC overhead, Caltrain uses 25 kV AC overhead.",
+        "A vintage streetcar is not built for the loads, speeds, or crash standards of a commuter-rail mainline.",
+        "No track connection exists."
+      ]
+    }
   ],
 
   sources: [
